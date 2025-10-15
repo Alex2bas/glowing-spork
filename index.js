@@ -6,24 +6,22 @@ import random from "random";
 const git = simpleGit();
 const path = "./data.json";
 
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 let counter = 0;
+
+// Helper: get random date between two dates
+function getRandomDate(start, end) {
+  const startDate = new Date(start).getTime();
+  const endDate = new Date(end).getTime();
+  const randomTime = random.int(startDate, endDate);
+  return moment(randomTime).format();
+}
 
 async function makeCommits(n, batchSize = 1000) {
   for (let i = 0; i < n; i++) {
     counter++;
 
-    const x = random.int(0, 54);
-    const y = random.int(0, 6);
-    const date = moment()
-      .subtract(getRndInteger(1, 3), "y")
-      .add(1, "d")
-      .add(x, "w")
-      .add(y, "d")
-      .format();
+    
+    const date = getRandomDate("2021-03-10", "2022-10-14");
 
     const data = { date };
     await jsonfile.writeFile(path, data);
@@ -44,4 +42,4 @@ async function makeCommits(n, batchSize = 1000) {
   console.log("All commits done!");
 }
 
-makeCommits(250372);
+makeCommits(52872);
